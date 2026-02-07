@@ -1,0 +1,882 @@
+<!-- updated -->
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>corat-coret design studio</title>
+  <link rel="icon" href="https://pbs.twimg.com/profile_images/1971468722390077440/iEjpATHL_400x400.jpg">
+  <meta name="description" content="corat-coret — design illustration productionl" />
+  <style>
+    :root{
+      --primary: #6366f1; /* modern indigo */
+      --primary-accent: #8b5cf6; /* vibrant purple */
+      --bg: #0f0f23; /* deeper dark */
+      --panel: #1a1a2e; /* rich dark blue */
+      --muted: #94a3b8; /* softer gray */
+      --glass: rgba(255,255,255,0.04);
+      --text: #f1f5f9; /* brighter white */
+      --radius: 16px; /* more rounded */
+      --transition: 400ms cubic-bezier(.25,.46,.45,.94); /* smoother transition */
+      --sidebar-w: 280px; /* slightly wider */
+      --header-h: 72px; /* taller header */
+    }
+
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{font-family:Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial; margin:0; background:var(--bg); color:var(--text); -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale; transition: background var(--transition), color var(--transition)}
+
+    /* Header */
+    header.site-header{height:var(--header-h); display:flex; align-items:center; gap:16px; padding:0 24px; border-bottom:2px solid rgba(255,255,255,0.08); backdrop-filter: blur(8px); position:fixed; top:0; left:0; right:0; z-index:50; background:linear-gradient(135deg, rgba(15,15,35,0.8), rgba(26,26,46,0.6))}
+    .brand{font-weight:900; letter-spacing:3px; font-size:22px; color:var(--primary); text-shadow: 0 0 20px rgba(99,102,241,0.3);}
+    .header-controls{margin-left:auto; display:flex; gap:16px; align-items:center}
+
+    /* Layout */
+    .container{display:flex; gap:24px; padding-top:var(--header-h);}
+
+    /* Sidebar */
+    aside.sidebar{width:var(--sidebar-w); min-width:var(--sidebar-w); background:linear-gradient(180deg, var(--panel) 0%, rgba(26,26,46,0.9) 100%); height:calc(100vh - var(--header-h)); position:sticky; top:var(--header-h); align-self:flex-start; border-right:2px solid rgba(255,255,255,0.08); padding:24px; display:flex; flex-direction:column; gap:16px; box-shadow: 4px 0 20px rgba(0,0,0,0.3);}
+    nav.menu{overflow:auto; padding-right:8px;}
+    nav.menu ul{list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:8px}
+    nav.menu a{display:block; padding:14px 18px; color:var(--text); text-decoration:none; border-radius:12px; font-weight:700; text-transform:uppercase; font-size:14px; letter-spacing:1.5px; transition: all var(--transition); position:relative; overflow:hidden;}
+    nav.menu a::before{content:''; position:absolute; top:0; left:-100%; width:100%; height:100%; background:linear-gradient(90deg, transparent, rgba(99,102,241,0.1), transparent); transition: left 0.5s;}
+    nav.menu a:hover{background:linear-gradient(135deg, rgba(99,102,241,0.1), rgba(139,92,246,0.05)); color:var(--primary-accent); transform:translateX(4px); box-shadow: 0 4px 12px rgba(99,102,241,0.2);}
+    nav.menu a:hover::before{left:100%;}
+    nav.menu a.active{background:linear-gradient(135deg, var(--primary), var(--primary-accent)); color:#fff; box-shadow: 0 6px 20px rgba(99,102,241,0.4);}
+
+    /* Make sidebar scrollable with custom scrollbar */
+    nav.menu::-webkit-scrollbar{width:10px}
+    nav.menu::-webkit-scrollbar-track{background:linear-gradient(180deg, rgba(26,26,46,0.3), rgba(15,15,35,0.3)); border-radius:8px}
+    nav.menu::-webkit-scrollbar-thumb{background:linear-gradient(180deg,var(--primary),var(--primary-accent)); border-radius:8px; box-shadow: inset 0 0 5px rgba(0,0,0,0.3)}
+    /* Firefox */
+    nav.menu{scrollbar-width:thin; scrollbar-color:var(--primary) rgba(26,26,46,0.5)}
+
+    /* Main */
+    main.content{flex:1; padding:40px; min-height:calc(100vh - var(--header-h)); background:linear-gradient(135deg, rgba(15,15,35,0.02) 0%, rgba(26,26,46,0.01) 100%);}
+
+    /* Sections */
+    .hero{display:flex; align-items:center; justify-content:space-between; gap:32px; padding:48px; background:linear-gradient(135deg, rgba(99,102,241,0.08), rgba(139,92,246,0.04)); border-radius:20px; border:1px solid rgba(255,255,255,0.08); box-shadow: 0 8px 32px rgba(0,0,0,0.3);}
+    .hero .text{max-width:65%}
+    .hero h1{margin:0; font-size:48px; letter-spacing:1px; line-height:1.2; background:linear-gradient(to left, var(--text) 90%, var(--primary-accent) 100%); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;}
+    .hero p.lead{margin:16px 0 0; color:var(--muted); font-weight:500; font-size:18px; line-height:1.6}
+
+    .card-grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:20px; margin-top:24px}
+    .card{background:linear-gradient(135deg, var(--panel), rgba(26,26,46,0.8)); padding:24px; border-radius:18px; box-shadow:0 8px 24px rgba(0,0,0,0.4); transition: all var(--transition); border:1px solid rgba(255,255,255,0.06); position:relative; overflow:hidden;}
+    .card::before{content:''; position:absolute; top:0; left:0; right:0; bottom:0; background:linear-gradient(135deg, rgba(99,102,241,0.05), transparent); opacity:0; transition: opacity var(--transition); pointer-events:none;}
+.card:hover{transform:translateY(-8px) scale(1.02); box-shadow: 0 16px 40px rgba(99,102,241,0.2);}
+    .card:hover::before{opacity:1;}
+    .services .card h3{margin:0 0 12px; font-size:20px; font-weight:700; color:var(--primary-accent);}
+
+    .portfolio-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin-top:20px}
+    .portfolio-grid img{width:100%; height:250px; object-fit:cover; border-radius:12px; transition: transform var(--transition), box-shadow var(--transition);}
+    .portfolio-grid img:hover{transform:scale(1.08) rotate(1deg); box-shadow: 0 12px 24px rgba(0,0,0,0.4);}
+
+    footer.site-footer{padding:24px; text-align:center; color:var(--muted); border-top:2px solid rgba(255,255,255,0.08); margin-top:40px; background:linear-gradient(135deg, rgba(15,15,35,0.3), rgba(26,26,46,0.2)); border-radius:16px 16px 0 0;}
+
+    /* Controls */
+    .hamburger{display:none; width:44px; height:44px; align-items:center; justify-content:center; background:linear-gradient(135deg, rgba(99,102,241,0.1), rgba(139,92,246,0.05)); border:2px solid rgba(255,255,255,0.08); border-radius:12px; cursor:pointer; transition: all var(--transition);}
+    .hamburger:hover{background:linear-gradient(135deg, var(--primary), var(--primary-accent)); border-color: var(--primary); transform:scale(1.05);}
+    .hamburger .bar{width:20px; height:3px; background:var(--text); display:block; position:relative; transition: background var(--transition);}
+    .hamburger .bar::after, .hamburger .bar::before{content:''; position:absolute; left:0; right:0; height:3px; background:var(--text); transition: all var(--transition);}
+    .hamburger .bar::before{top:-7px}
+    .hamburger .bar::after{top:7px}
+
+    /* Mobile / Tablet */
+    @media (max-width:900px){
+      aside.sidebar{position:fixed; left:0; top:var(--header-h); bottom:0; transform:translateX(-110%); transition: transform var(--transition); z-index:60; width:300px; background:linear-gradient(180deg, var(--panel), rgba(26,26,46,0.95));}
+      body.sidebar-open aside.sidebar{transform:translateX(0)}
+      .container{padding:0 16px;}
+      .hero .text{max-width:100%; padding:0 8px}
+      .hero h1{font-size:42px}
+      .hero p.lead{font-size:16px}
+      .hamburger{display:flex}
+      nav.menu{height:calc(100vh - var(--header-h) - 80px)}
+      .portfolio-grid{grid-template-columns:repeat(2,1fr)}
+      .team-grid{grid-template-columns:repeat(2, 1fr); gap:20px}
+    }
+    @media (max-width:520px){
+      .hero{flex-direction:column; align-items:flex-start; padding:32px; gap:24px}
+      .hero h1{font-size:36px; line-height:1.1}
+      .hero p.lead{font-size:15px}
+      .portfolio-grid{grid-template-columns:1fr}
+      .team-grid{grid-template-columns:1fr; gap:16px}
+      .team-member-img{height:240px}
+      header.site-header{padding:0 16px}
+      .brand{font-size:20px}
+      aside.sidebar{width:280px}
+      :root{ --bubble-size:64px }
+      .chat-bubble .label{display:block; font-size:11px; padding:6px 8px;}
+    }
+
+    /* Simple fade-in animation for sections */
+    .reveal{opacity:0; transform:translateY(12px); transition:opacity 600ms ease, transform 600ms ease}
+    .reveal.visible{opacity:1; transform:translateY(0)}
+
+    /* small utilities */
+    .muted{color:var(--muted)}
+    .kicker{font-size:12px; color:var(--muted); text-transform:uppercase; letter-spacing:1px}
+
+    /* Social media links */
+    .social-links{display:flex; gap:16px; margin-top:20px; flex-wrap:wrap}
+    .social-link{display:inline-flex; align-items:center; justify-content:center; width:48px; height:48px; border-radius:14px; background:linear-gradient(135deg, rgba(99,102,241,0.1), rgba(139,92,246,0.05)); border:2px solid rgba(255,255,255,0.08); text-decoration:none; color:var(--text); transition: all var(--transition); box-shadow: 0 4px 12px rgba(0,0,0,0.2);}
+    .social-link:hover{transform:translateY(-4px) scale(1.1); background:linear-gradient(135deg, var(--primary), var(--primary-accent)); border-color: var(--primary); color:#fff; box-shadow: 0 8px 24px rgba(99,102,241,0.4);}
+    .social-link svg{width:22px; height:22px}
+
+    /* Portfolio image animation */
+    .portfolio-grid img{cursor:pointer; transition: all var(--transition)}
+    .portfolio-grid img:hover{transform:scale(1.08) rotate(2deg); filter: brightness(1.1) contrast(1.05); box-shadow: 0 16px 32px rgba(99,102,241,0.3)}
+
+    /* Modal lightbox */
+    .modal{display:none; position:fixed; top:0; left:0; right:0; bottom:0; background:rgba(0,0,0,0.85); z-index:100; align-items:center; justify-content:center; opacity:0; backdrop-filter:blur(4px); transition:opacity var(--transition)}
+    .modal.active{display:flex; opacity:1}
+    .modal-content{position:relative; max-width:95vw; max-height:95vh; animation:slideInScale 600ms cubic-bezier(.2,.9,.2,1); box-shadow: 0 25px 50px rgba(0,0,0,0.5)}
+    .modal-content img{width:100%; height:auto; border-radius:16px; box-shadow: 0 20px 60px rgba(0,0,0,0.6)}
+    .modal-close{position:absolute; top:-45px; right:0; width:44px; height:44px; background:linear-gradient(135deg, var(--primary), var(--primary-accent)); border:none; border-radius:12px; color:#fff; font-size:24px; cursor:pointer; display:flex; align-items:center; justify-content:center; transition: all var(--transition); box-shadow: 0 6px 20px rgba(99,102,241,0.4)}
+    .modal-close:hover{transform:scale(1.1); box-shadow: 0 8px 25px rgba(99,102,241,0.5)}
+
+    @keyframes slideInScale{
+      from{transform:scale(0.8) translateY(-30px); opacity:0}
+      to{transform:scale(1) translateY(0); opacity:1}
+    }
+
+    /* Section highlight animation */
+    section.highlight-pulse{
+      animation: pulseHighlight 1200ms ease-out;
+    }
+
+    @keyframes pulseHighlight{
+      0%{
+        box-shadow: 0 0 0 0 rgba(99, 102, 241, 0.8), inset 0 0 25px rgba(99, 102, 241, 0.3);
+        background: linear-gradient(135deg, rgba(99, 102, 241, 0.2), rgba(139, 92, 246, 0.1));
+      }
+      50%{
+        box-shadow: 0 0 0 20px rgba(99, 102, 241, 0), inset 0 0 15px rgba(99, 102, 241, 0.2);
+      }
+      100%{
+        box-shadow: 0 0 0 0 rgba(99, 102, 241, 0), inset 0 0 0px rgba(99, 102, 241, 0);
+        background: transparent;
+      }
+    }
+
+    /* Team member cards */
+    .team-grid{display:grid; grid-template-columns:repeat(auto-fit, minmax(260px, 1fr)); gap:28px; margin-top:24px}
+    .team-member{position:relative; cursor:pointer; border-radius:16px; overflow:hidden; transition: all var(--transition);}
+    .team-member-img{width:100%; height:300px; object-fit:cover; display:block; transition: transform 600ms cubic-bezier(.2,.9,.2,1), filter 400ms;}
+    .team-member-overlay{position:absolute; top:0; left:0; right:0; bottom:0; background:linear-gradient(180deg, rgba(0,0,0,0), rgba(99,102,241,0.9)); display:flex; flex-direction:column; align-items:flex-end; justify-content:flex-end; padding:24px; opacity:0; transition: opacity 500ms ease}
+    .team-member:hover .team-member-overlay{opacity:1}
+    .team-member:hover .team-member-img{transform:scale(1.1) rotate(2deg); filter: brightness(1.1) contrast(1.05)}
+    .team-member-info{color:#fff; text-align:right}
+    .team-member-name{font-weight:800; font-size:20px; letter-spacing:1px; margin:0; text-shadow: 0 2px 8px rgba(0,0,0,0.5)}
+    .team-member-role{font-size:14px; color:var(--primary-accent); margin:8px 0 0; text-transform:uppercase; letter-spacing:1.5px; text-shadow: 0 1px 4px rgba(0,0,0,0.5)}
+
+    /* Team member click animation */
+    .team-member.clicked .team-member-img{animation: memberClick 700ms cubic-bezier(.2,.9,.2,1)}
+    @keyframes memberClick{
+      0%{transform:scale(1) rotate(0deg)}
+      50%{transform:scale(1.2) rotate(3deg); filter: brightness(1.2) contrast(1.1)}
+      100%{transform:scale(1.1) rotate(2deg); filter: brightness(1.1) contrast(1.05)}
+    }
+
+    /* Mobile adjustments */
+    @media (max-width:768px){
+      .team-grid{grid-template-columns:repeat(2, 1fr); gap:20px}
+    }
+    @media (max-width:520px){
+      .team-grid{grid-template-columns:1fr}
+      .team-member-img{height:240px}
+    }
+
+    /* Team modal lightbox */
+    .team-modal{display:none; position:fixed; top:0; left:0; right:0; bottom:0; background:rgba(0,0,0,0.9); z-index:101; align-items:center; justify-content:center; opacity:0; backdrop-filter:blur(6px); transition:opacity var(--transition)}
+    .team-modal.active{display:flex; opacity:1}
+    .team-modal-content{position:relative; max-width:650px; width:90%; animation:slideInScale 600ms cubic-bezier(.2,.9,.2,1)}
+    .team-modal-img{width:100%; height:420px; object-fit:cover; border-radius:16px; display:block; box-shadow: 0 20px 40px rgba(0,0,0,0.5)}
+    .team-modal-info{background:linear-gradient(135deg, var(--panel), rgba(26,26,46,0.9)); padding:32px; border-radius:0 0 16px 16px; text-align:center; border:1px solid rgba(255,255,255,0.08); border-top:none}
+    .team-modal-name{font-size:24px; font-weight:800; margin:0; letter-spacing:1px; color:var(--text); background:linear-gradient(to left, var(--text) 90%, var(--primary-accent) 100%); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text}
+    .team-modal-role{font-size:16px; color:var(--primary); margin:10px 0 0; text-transform:uppercase; letter-spacing:1.5px; font-weight:700}
+    .team-modal-desc{font-size:15px; color:var(--muted); margin:14px 0 0; line-height:1.6}
+    .team-modal-close{position:absolute; top:-55px; right:0; width:44px; height:44px; background:linear-gradient(135deg, var(--primary), var(--primary-accent)); border:none; border-radius:12px; color:#fff; font-size:24px; cursor:pointer; display:flex; align-items:center; justify-content:center; transition: all var(--transition); box-shadow: 0 6px 20px rgba(99,102,241,0.4)}
+    .team-modal-close:hover{transform:scale(1.1); box-shadow: 0 8px 25px rgba(99,102,241,0.5)}
+    .team-modal-close{position:absolute; top:-55px; right:0; width:44px; height:44px; background:linear-gradient(135deg, var(--primary), var(--primary-accent)); border:none; border-radius:12px; color:#fff; font-size:24px; cursor:pointer; display:flex; align-items:center; justify-content:center; transition: all var(--transition); box-shadow: 0 6px 20px rgba(99,102,241,0.4)}
+    .team-modal-close:hover{transform:scale(1.1); box-shadow: 0 8px 25px rgba(99,102,241,0.5)}
+
+    /* Navigation arrows */
+    .team-nav-btn{position:absolute; top:50%; transform:translateY(-50%); width:44px; height:44px; background:linear-gradient(135deg, var(--primary), var(--primary-accent)); border:none; border-radius:12px; color:#fff; font-size:22px; cursor:pointer; display:flex; align-items:center; justify-content:center; transition: all var(--transition); box-shadow: 0 6px 20px rgba(99,102,241,0.4); z-index:5}
+    .team-nav-btn:hover{transform:translateY(-50%) scale(1.15); box-shadow: 0 10px 30px rgba(99,102,241,0.6)}
+    .team-nav-prev{left:-65px}
+    .team-nav-next{right:-65px}
+
+    @media (max-width:900px){
+      .team-nav-btn{width:40px; height:40px; font-size:20px}
+      .team-nav-prev{left:-55px}
+      .team-nav-next{right:-55px}
+    }
+
+    /* Floating draggable bubble (liquid glass) */
+    :root{ --bubble-size:72px }
+    .chat-bubble{
+      position:fixed;
+      right:4vw;
+      bottom:4vw;
+      width:var(--bubble-size);
+      height:var(--bubble-size);
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      border-radius:20px;
+      background:linear-gradient(135deg, rgba(255,255,255,0.08), rgba(255,255,255,0.04));
+      backdrop-filter: blur(12px) saturate(130%);
+      -webkit-backdrop-filter: blur(12px) saturate(130%);
+      border:2px solid rgba(99,102,241,0.3);
+      box-shadow: 0 12px 40px rgba(0,0,0,0.4), inset 0 2px 0 rgba(255,255,255,0.05);
+      z-index:120;
+      cursor:pointer;
+      touch-action: manipulation;
+      user-select: none;
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+      -webkit-tap-highlight-color: transparent;
+      -webkit-touch-callout: none;
+      -webkit-font-smoothing: antialiased;
+      will-change: transform;
+      transform: translateZ(0);
+    }
+    .chat-bubble:active{transform:scale(0.96)}
+    .chat-bubble .label{display:none}
+    .chat-bubble svg{width:32px; height:32px; color:var(--primary)}
+    /* Entrance animation when page loads */
+    .chat-bubble.enter{animation:bubbleIn 800ms cubic-bezier(.2,.9,.2,1) both}
+    @keyframes bubbleIn{
+      0%{transform:translateY(24px) scale(.9); opacity:0}
+      60%{transform:translateY(-8px) scale(1.05); opacity:1}
+      100%{transform:translateY(0) scale(1)}
+    }
+    /* Hint animation: wave/nudge to show it's draggable */
+    .chat-bubble.hint{animation:bubbleHint 2400ms cubic-bezier(.43,.13,.23,.96) infinite}
+    @keyframes bubbleHint{
+      0%{transform:translateX(0) rotate(0deg)}
+      15%{transform:translateX(-14px) rotate(-4deg)}
+      25%{transform:translateX(10px) rotate(3deg)}
+      35%{transform:translateX(-12px) rotate(-3deg)}
+      45%{transform:translateX(8px) rotate(2deg)}
+      55%{transform:translateX(-8px) rotate(-2deg)}
+      65%{transform:translateX(6px) rotate(1.5deg)}
+      75%{transform:translateX(-4px) rotate(-1.5deg)}
+      100%{transform:translateX(0) rotate(0deg)}
+    }
+    /* Snap-to-edge with realistic physics bounce */
+    .chat-bubble.snapping{animation:bubbleSnap 1000ms cubic-bezier(.68,.15,.26,.86) forwards}
+    @keyframes bubbleSnap{
+      0%{transform:scale(1) rotate(0deg)}
+      25%{transform:scale(1.15) rotate(-3deg)}
+      50%{transform:scale(0.92) rotate(2deg)}
+      70%{transform:scale(1.06) rotate(-1.5deg)}
+      85%{transform:scale(0.97) rotate(0.8deg)}
+      100%{transform:scale(1) rotate(0deg)}
+    }
+    /* Desktop: show a small pill label to the left of the bubble */
+    .chat-bubble .label{
+      position:absolute;
+      right:calc(100% + 12px);
+      top:50%;
+      transform:translateY(-50%);
+      background:linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.02));
+      padding:8px 12px;
+      border-radius:999px;
+      color:var(--text);
+      font-weight:700;
+      font-size:13px;
+      white-space:nowrap;
+      box-shadow:0 10px 30px rgba(0,0,0,0.35);
+      display:none;
+      pointer-events:none; /* click should hit bubble */
+      transition:all 850ms cubic-bezier(.68,.15,.26,.86);
+    }
+    /* Label snap-left: move to right side of bubble */
+    .chat-bubble.snapped-left .label{
+      right:auto;
+      left:calc(100% + 12px);
+    }
+    /* Label snap-right: stay on left side (default) */
+    .chat-bubble.snapped-right .label{
+      right:calc(100% + 12px);
+      left:auto;
+    }
+    @media (min-width:900px){
+      .chat-bubble .label{display:block}
+    }
+    @media (max-width:520px){
+      :root{ --bubble-size:64px }
+      .chat-bubble .label{display:block; font-size:11px; padding:6px 8px; background:linear-gradient(135deg, rgba(99,102,241,0.9), rgba(139,92,246,0.8)); border:1px solid rgba(255,255,255,0.2)}
+    }
+
+  </style>
+</head>
+<body data-theme="dark">
+  <header class="site-header">
+    <button class="hamburger" id="btn-hamburger" aria-label="Toggle menu">
+      <span class="bar"></span>
+    </button>
+    <div class="brand">CORAT-CORET</div>
+    <div class="header-controls">
+      <!-- Theme toggle removed -->
+    </div>
+  </header>
+
+  <div class="container">
+    <aside class="sidebar" id="sidebar" aria-label="Primary navigation">
+      <div class="kicker">Navigation</div>
+      <nav class="menu" id="nav-menu">
+        <ul>
+          <li><a href="#home" class="active">Home</a></li>
+           <li><a href="#about">About Us</a></li>
+          <li><a href="#services">Services</a></li>
+          <li><a href="#portfolio">Portfolio</a></li>
+           <li><a href="#our team">our team</a></li>
+          <li><a href="#contact">Contact</a></li>
+          <!-- long menu demonstration (keeps sidebar scrollbar visible) -->
+        </ul>
+      </nav>
+      <div style="margin-top:auto; font-size:13px; color:var(--muted);">© <span id="year"></span> REDZONE</div>
+    </aside>
+
+    <main class="content">
+      <section id="home" class="hero reveal">
+        <div class="text">
+          <div class="kicker">corat-coret</div>
+          <h1>Good design like wine, take time</h1>
+          <p class="lead">Studio desain yang sudah berpengalaman selama 4tahun dan telah dipercaya oleh lebih dari 40+ client untuk menghasilkan berbagai grafis berkualitas dan terjangkau - logo, ilustrasi, poster dan lainnya</p>
+        </div>
+
+        
+        <div style="min-width:220px; text-align:right">
+          <div style="background:linear-gradient(135deg,var(--red),var(--red-accent)); padding:18px; border-radius:10px; color:white; font-weight:700">Open commision</div>
+        </div>
+      </section>
+
+      <section id="about" class="reveal" style="margin-top:18px">
+        <div class="card">
+          <h3>Company</h3>
+          <p class="muted">CORAT-CORET Merupakan studio jasa desain grafis yang berfokus pada produksi desain digital berkualitas, kami menggunakan software seperti Adobe Photoshop, CorelDraw, IbisPaintX, Canva, dengan sangat memperhatikan detail pengerjaan dan prioritas kepuasan client, kami berkomitmen untuk memberikan pelayanan dan hasil yang memuaskan.
+        </div>
+      </section>
+
+<section id="services" class="services reveal" style="margin-top:18px">
+        <div class="kicker">Services</div>
+        <div class="card-grid">
+          <div class="card">
+            <h3>Desain ilustrasi</h3>
+            <p class="muted">Proses pembuatan dibuat dengan 100% buatan tangan gambar ilustrasi digital dengan objektif dari brief client kami dapat menghasilkan ilustrasi seperti desain ilustrasi sablon kaos, mascot brand, kami menggunakan full vector yang lebih baik untuk percetakan.
+            <blockquote>(Harga start dari 60k-150k tergantung kesulitan, file yang akan diperoleh= *svg, *cdr, *pdf, *png, *1 custom request file)</blockquote>
+          </p>
+          </div>
+          
+          <div class="card">
+            <h3>Desain poster</h3>
+            <p class="muted">Kami menerima jasa pembuatan desain poster untuk kebutuhan campaign, event, hingga banner UMKM. Setiap desain dikerjakan berdasarkan brief client dengan fokus pada pesan utama agar mudah dipahami dan menarik secara visual, baik untuk media digital maupun cetak.
+            <blockquote>(Harga start dari 50k-75k tergantung kesulitan , file yang akan diperoleh= *psd, *png, *1 custom request file)</blockquote>
+            </p>
+          </div>
+
+          <div class="card">
+            <h3>Desain logo</h3>
+            <p class="muted">Kami menerima jasa pembuatan desain logo yang difokuskan pada identitas visual brand agar memiliki karakter yang kuat, relevan, dan mudah dikenali. Proses pengerjaan dimulai dari pemahaman konsep dan brief client untuk menghasilkan logo yang fleksibel digunakan di berbagai media, baik digital maupun cetak.
+            <blockquote>(Harga start dari 60k-100k, file yang akan diperoleh= *svg, *cdr, *pdf, *png, *1 custom request file)</blockquote>
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section id="portfolio" class="reveal" style="margin-top:25px">
+        <div class="kicker">Portfolio</div>
+        <div class="portfolio-grid" id="portfolio-grid">
+          <img src="https://pbs.twimg.com/media/HAdneU_bIAACxBa?format=jpg&name=small" alt="Portfolio 1"/>
+          <img src="https://pbs.twimg.com/media/HAdos2IboAAs9X0?format=jpg&name=small" alt="Portfolio 2"/>
+          <img src="https://pbs.twimg.com/media/HAdpnEZagAEQTpV?format=jpg&name=small" alt="Portfolio 3"/>
+          <img src="https://pbs.twimg.com/media/HAdqPjQaYAA0P-R?format=jpg&name=small" alt="Portfolio 4"/>
+          <img src="https://pbs.twimg.com/media/HAdq5JtboAAvlra?format=jpg&name=small" alt="Portfolio 5"/>
+          <img src="https://pbs.twimg.com/media/HAdreiEbwAE2Yw-?format=jpg&name=small" alt="Portfolio 6"/>
+        </div>
+      </section>
+
+      <section id="our team" class="reveal" style="margin-top:18px">
+        <div class="kicker">Our Team</div> 
+        <h2 style="margin:12px 0 0; font-size:24px; letter-spacing:1px">Meet The Crew</h2>
+        <div class="team-grid">
+          <!-- Team member template - replace src and info -->
+          <div class="team-member">
+            <img src="https://pbs.twimg.com/media/HAiW_BqbQAAJq5n?format=jpg&name=4096x4096" alt="Team Member 2" class="team-member-img"/>
+            <div class="team-overlay">
+              <div class="team-member-overlay">
+                <div class="team-member-info">
+                  <h3 class="team-member-name">Nasr-</h3>
+                  <p class="team-member-role">PRODUKSI / Designer-Illustrator</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="team-member">
+            <img src="https://pbs.twimg.com/media/HAiW_ByacAEJss5?format=jpg&name=4096x4096" alt="Team Member 4" class="team-member-img"/>
+            <div class="team-overlay">
+              <div class="team-member-overlay">
+                <div class="team-member-info">
+                  <h3 class="team-member-name">nasr=</h3>
+                  <p class="team-member-role">PRODUKSI / SosialMedia-Management</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="team-member">
+            <img src="https://pbs.twimg.com/media/HAiW_BlacAEdw5Q?format=jpg&name=4096x4096" alt="Team Member 5" class="team-member-img"/>
+            <div class="team-overlay">
+              <div class="team-member-overlay">
+                <div class="team-member-info">
+                  <h3 class="team-member-name">NASR+</h3>
+                  <p class="team-member-role">PRODUKSI / Content Creator </p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="team-member">
+            <img src="https://pbs.twimg.com/media/HAiW_BkacAIZVYF?format=jpg&name=4096x4096" alt="Team Member 6" class="team-member-img"/>
+            <div class="team-overlay">
+              <div class="team-member-overlay">
+                <div class="team-member-info">
+                  <h3 class="team-member-name">NaSr</h3>
+                  <p class="team-member-role">OFFICE / Admin-customer service</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="contact" class="reveal" style="margin-top:18px">
+        <div class="card">
+          <h3>Contact</h3>
+          <p class="muted"> Tertarik untuk buat design <strong>klik salah satu link untuk konsultasi</strong> .</p>
+          
+          <div style="margin-top:24px">
+            <div class="kicker" style="margin-bottom:12px">Contact Us</div>
+            <div class="social-links">
+              <!-- Instagram -->
+              <a href="https://www.instagram.com/coret.dsgn?igsh=MXBzbGNibTdjd3FkNw%3D%3D&utm_source=qr" class="social-link" title="Instagram" target="_blank" rel="noopener noreferrer">
+                <svg viewBox="0 0 24 24" fill="currentColor"><rect x="2" y="2" width="20" height="20" rx="4"/><path d="M12 8a4 4 0 100 8 4 4 0 000-8z" fill="var(--bg)"/><circle cx="18.5" cy="5.5" r="1.5" fill="var(--bg)"/></svg>
+              </a>
+              
+              <!-- Facebook -->
+              <a href="https://www.facebook.com/share/1CbBC546op/?mibextid=wwXIfr" class="social-link" title="Facebook" target="_blank" rel="noopener noreferrer">
+                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+              </a>
+              
+              <!-- TikTok -->
+              <a href="https://www.tiktok.com/@coret.dsgn?_r=1&_t=ZS-93iUXvYk2To" class="social-link" title="TikTok" target="_blank" rel="noopener noreferrer">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 12a4 4 0 1 0 4 4V4a5 5 0 0 0 5 5"/></svg>
+              </a>
+              
+              <!-- Email -->
+              <a href="https://mail.google.com/mail/?view=cm&fs=1&to=annashrfirdausayyasi@gmail.com" class="social-link" title="Email" target="_blank" rel="noopener noreferrer">
+                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <footer class="site-footer">
+        Built with precision — REDZONE. <span class="muted">All rights reserved.</span>
+      </footer>
+    </main>
+  </div>
+
+  <!-- Image Modal -->
+  <div class="modal" id="imageModal">
+    <div class="modal-content">
+      <img id="modalImage" src="" alt=""/>
+      <button class="modal-close" id="modalClose">&times;</button>
+    </div>
+  </div>
+
+  <!-- Floating draggable WhatsApp bubble -->
+  <a id="chatBubble" class="chat-bubble" href="https://wa.me/628557435888" target="_blank" rel="noopener noreferrer" title="Chat on WhatsApp" aria-label="WhatsApp chat">
+    <span class="label">Hubungi kami di Whatsapp</span>
+    <img src="https://pbs.twimg.com/media/G6PzaLyacAIQT-1?format=png&name=small" alt="WhatsApp" style="width:28px; height:28px; display:block"/>
+  </a>
+
+  <!-- Team Member Modal -->
+  <div class="team-modal" id="teamModal">
+    <div class="team-modal-content">
+      <img id="teamModalImg" src="" alt="" class="team-modal-img"/>
+      <div class="team-modal-info">
+        <h3 class="team-modal-name" id="teamModalName">Name</h3>
+        <p class="team-modal-role" id="teamModalRole">Role</p>
+        <p class="team-modal-desc" id="teamModalDesc">Team member description</p>
+      </div>
+      <button class="team-modal-close" id="teamModalClose">&times;</button>
+    </div>
+  </div>
+
+  <script>
+    // small helpers
+    const body = document.body;
+    const btnHamburger = document.getElementById('btn-hamburger');
+    const yearEl = document.getElementById('year');
+    yearEl.textContent = new Date().getFullYear();
+
+      const open = body.classList.toggle ('sidebar-open');
+    // Hamburger / sidebar toggle
+    btnHamburger.addEventListener('click', ()=>{gle('sidebar-open');
+      btnHamburger.setAttribute('aria-expanded', open);
+    });
+
+    // Close sidebar when nav link clicked (mobile)
+    document.getElementById('nav-menu').addEventListener('click', (e)=>{
+      if(e.target.tagName === 'A' && window.innerWidth <= 900){
+        body.classList.remove('sidebar-open');
+        btnHamburger.setAttribute('aria-expanded', 'false');
+      }
+    });
+
+    // Simple reveal-on-scroll using IntersectionObserver
+    const reveals = document.querySelectorAll('.reveal');
+    const io = new IntersectionObserver((entries)=>{
+      entries.forEach(en => {
+        if(en.isIntersecting){
+          en.target.classList.add('visible');
+          io.unobserve(en.target);
+        }
+      });
+    },{threshold:0.12});
+    reveals.forEach(r => io.observe(r));
+
+    // Keyboard: close sidebar with Escape
+    document.addEventListener('keydown', (e)=>{
+      if(e.key === 'Escape'){
+        body.classList.remove('sidebar-open');
+      }
+    });
+
+    // Smooth scrolling for anchor links
+    // Use id lookup (getElementById) instead of querySelector so IDs
+    // containing spaces (e.g. "our team") still work when clicked.
+    document.querySelectorAll('a[href^="#"]').forEach(a=>{
+      a.addEventListener('click', (ev)=>{
+        const href = a.getAttribute('href');
+        if(href && href.length > 1){
+          ev.preventDefault();
+          const idName = href.startsWith('#') ? href.slice(1) : href;
+          // Prefer getElementById; fallback to attribute match for safety
+          let target = document.getElementById(idName) || document.querySelector(`[id="${idName}"]`);
+          if(target){
+            target.scrollIntoView({behavior:'smooth', block:'start'});
+            // Update active menu item (pass selector-style string)
+            updateActiveMenu('#' + idName);
+          }
+        }
+      });
+    });
+
+    // Update active menu item based on section
+    function updateActiveMenu(sectionId){
+      document.querySelectorAll('nav.menu a').forEach(link => link.classList.remove('active'));
+      const activeLink = document.querySelector(`nav.menu a[href="${sectionId}"]`);
+      if(activeLink) activeLink.classList.add('active');
+
+      // Add highlight pulse to the section.
+      // Some section ids may contain spaces (e.g. "our team"). Rather than using
+      // querySelector with the raw selector (which breaks on spaces), find the
+      // section by matching its id attribute explicitly.
+      document.querySelectorAll('section, main').forEach(sec => sec.classList.remove('highlight-pulse'));
+      const idName = sectionId && sectionId.startsWith('#') ? sectionId.slice(1) : sectionId;
+      let targetSection = null;
+      if(idName){
+        const candidateSections = document.querySelectorAll('section, main');
+        candidateSections.forEach(sec => {
+          if(sec.getAttribute('id') === idName) targetSection = sec;
+        });
+      }
+      if(targetSection){
+        targetSection.classList.add('highlight-pulse');
+        // remove pulse after animation completes (slightly longer than 1s)
+        setTimeout(()=>{
+          if(targetSection) targetSection.classList.remove('highlight-pulse');
+        }, 1100);
+      }
+    }
+
+    // Highlight menu item on scroll
+    const sections = document.querySelectorAll('section[id], main[id]');
+    window.addEventListener('scroll', ()=>{
+      let current = '';
+      sections.forEach(section => {
+        const sectionTop = section.offsetTop - 120; // offset for header
+        if(window.pageYOffset >= sectionTop){
+          current = '#' + section.getAttribute('id');
+        }
+      });
+      if(current) updateActiveMenu(current);
+    }, {passive: true});
+
+    // Portfolio image lightbox
+    const modal = document.getElementById('imageModal');
+    const modalImage = document.getElementById('modalImage');
+    const modalClose = document.getElementById('modalClose');
+    const portfolioImages = document.querySelectorAll('.portfolio-grid img');
+
+    portfolioImages.forEach(img => {
+      img.addEventListener('click', ()=>{
+        modalImage.src = img.src;
+        modal.classList.add('active');
+        document.body.style.overflow = 'hidden';
+      });
+    });
+
+    function closeModal(){
+      modal.classList.remove('active');
+      document.body.style.overflow = '';
+    }
+
+    modalClose.addEventListener('click', closeModal);
+    modal.addEventListener('click', (e)=>{
+      if(e.target === modal) closeModal();
+    });
+
+    // Close modal with Escape key
+    document.addEventListener('keydown', (e)=>{
+      if(e.key === 'Escape' && modal.classList.contains('active')){
+        closeModal();
+      }
+    });
+
+    // Team member click animation
+    const teamMembers = document.querySelectorAll('.team-member');
+    teamMembers.forEach(member => {
+      member.addEventListener('click', ()=>{
+        member.classList.add('clicked');
+        setTimeout(()=>{
+          member.classList.remove('clicked');
+        }, 600);
+
+        // Open team modal
+        const img = member.querySelector('.team-member-img');
+        const name = member.querySelector('.team-member-name').textContent;
+        const role = member.querySelector('.team-member-role').textContent;
+        
+        openTeamModal(img.src, name, role);
+      });
+    });
+
+    // Team member modal
+    const teamModal = document.getElementById('teamModal');
+    const teamModalImg = document.getElementById('teamModalImg');
+    const teamModalName = document.getElementById('teamModalName');
+    const teamModalRole = document.getElementById('teamModalRole');
+    const teamModalClose = document.getElementById('teamModalClose');
+
+    function openTeamModal(imgSrc, name, role){
+      teamModalImg.src = imgSrc;
+      teamModalName.textContent = name;
+      teamModalRole.textContent = role;
+      teamModal.classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeTeamModal(){
+      teamModal.classList.remove('active');
+      document.body.style.overflow = '';
+    }
+
+    teamModalClose.addEventListener('click', closeTeamModal);
+    teamModal.addEventListener('click', (e)=>{
+      if(e.target === teamModal) closeTeamModal();
+    });
+
+    // Close team modal with Escape
+    document.addEventListener('keydown', (e)=>{
+      if(e.key === 'Escape' && teamModal.classList.contains('active')){
+        closeTeamModal();
+      }
+    });
+
+    // Floating draggable bubble logic
+    (function(){
+      const bubble = document.getElementById('chatBubble');
+      if(!bubble) return;
+      let size = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--bubble-size')) || 64;
+
+      function clamp(v, min, max){ return Math.min(max, Math.max(min, v)); }
+      function setSidebar(){ return document.querySelector('aside.sidebar'); }
+      function getNavWidth(){ const nav = setSidebar(); return (nav && window.innerWidth > 900) ? nav.offsetWidth : 0; }
+      
+      // Store position state to maintain consistency
+      function setPosLeftTop(x,y){
+        bubble.style.left = x + 'px';
+        bubble.style.top = y + 'px';
+        bubble.style.right = 'auto';
+        bubble.style.bottom = 'auto';
+      }
+      function setPosRightBottom(){
+        bubble.style.right = '24px';
+        bubble.style.bottom = '24px';
+        bubble.style.left = 'auto';
+        bubble.style.top = 'auto';
+      }
+
+      // Always start at default bottom-right on load (no persistence)
+      setPosRightBottom();
+
+      // Entrance animation: add class then remove after animation completes
+      requestAnimationFrame(()=>{
+        bubble.classList.add('enter');
+        bubble.addEventListener('animationend', ()=> bubble.classList.remove('enter'), {once:true});
+        // After entrance, add hint animation to show it's draggable (loops until user drags)
+        setTimeout(()=>{
+          bubble.classList.add('hint');
+        }, 1500);
+      });
+
+      let dragging = false;
+      let pointerId = null;
+      let startX = 0, startY = 0, origX = 0, origY = 0;
+      let moved = false;
+      const DRAG_THRESHOLD = 8; // pixels needed to consider it a drag
+
+      // Support both pointer and touch events for mobile compatibility
+      function startDrag(ev){
+        if(ev.target !== bubble) return;
+        bubble.classList.remove('hint');
+        ev.preventDefault();
+        ev.stopPropagation();
+        pointerId = ev.pointerId || (ev.touches ? ev.touches[0].identifier : 1);
+        if(bubble.setPointerCapture && ev.pointerId) bubble.setPointerCapture(pointerId);
+        dragging = true;
+        moved = false;
+        startX = ev.clientX || (ev.touches ? ev.touches[0].clientX : 0);
+        startY = ev.clientY || (ev.touches ? ev.touches[0].clientY : 0);
+        const rect = bubble.getBoundingClientRect();
+        origX = rect.left; origY = rect.top;
+        size = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--bubble-size')) || size;
+      }
+      bubble.addEventListener('pointerdown', startDrag, false);
+      bubble.addEventListener('touchstart', startDrag, {passive:false, capture:false});
+
+      function moveDrag(ev){
+        if(!dragging) return;
+        let clientX = ev.clientX;
+        let clientY = ev.clientY;
+        if(ev.touches && ev.touches.length){
+          clientX = ev.touches[0].clientX;
+          clientY = ev.touches[0].clientY;
+        }
+        const dx = clientX - startX;
+        const dy = clientY - startY;
+        // Only mark as moved if exceeds threshold
+        if(Math.abs(dx) > DRAG_THRESHOLD || Math.abs(dy) > DRAG_THRESHOLD){
+          moved = true;
+        }
+        if(moved){
+          let nx = origX + dx;
+          let ny = origY + dy;
+          const navWidth = getNavWidth();
+          const minX = navWidth + 8;
+          const maxX = window.innerWidth - size - 8;
+          const topLimit = 8 + (document.querySelector('.site-header')?.offsetHeight || 0);
+          const maxY = window.innerHeight - size - 8;
+          nx = clamp(nx, minX, maxX);
+          ny = clamp(ny, topLimit, maxY);
+          setPosLeftTop(nx, ny);
+        }
+      }
+      document.addEventListener('pointermove', moveDrag, false);
+      document.addEventListener('touchmove', moveDrag, {passive:false, capture:false});
+
+      function snapToEdge(){
+        const rect = bubble.getBoundingClientRect();
+        const centerX = rect.left + rect.width/2;
+        const navWidth = getNavWidth();
+        const minLeftSnap = navWidth + 8;
+        const viewportMid = window.innerWidth/2;
+        const topLimit = 8 + (document.querySelector('.site-header')?.offsetHeight || 0);
+        let finalTop = clamp(rect.top, topLimit, window.innerHeight - rect.height - 8);
+        
+        bubble.classList.add('snapping');
+        setTimeout(()=> bubble.classList.remove('snapping'), 850);
+        
+        if(centerX < viewportMid){
+          bubble.style.left = minLeftSnap + 'px';
+          bubble.style.top = Math.round(finalTop) + 'px';
+          bubble.style.right = 'auto';
+          bubble.style.bottom = 'auto';
+          bubble.classList.remove('snapped-right');
+          bubble.classList.add('snapped-left');
+        } else {
+          bubble.style.right = '24px';
+          bubble.style.top = Math.round(finalTop) + 'px';
+          bubble.style.left = 'auto';
+          bubble.style.bottom = 'auto';
+          bubble.classList.remove('snapped-left');
+          bubble.classList.add('snapped-right');
+        }
+      }
+
+      function endDrag(ev){
+        if(!dragging) return;
+        if(bubble.releasePointerCapture && pointerId) try{ bubble.releasePointerCapture(pointerId); }catch(e){}
+        dragging = false;
+        snapToEdge();
+      }
+
+      document.addEventListener('pointerup', endDrag, false);
+      document.addEventListener('pointercancel', endDrag, false);
+      document.addEventListener('touchend', (ev)=>{ endDrag(ev); }, {passive:false});
+      document.addEventListener('touchcancel', (ev)=>{ endDrag(ev); }, {passive:false});
+
+      // Distinguish click vs drag: if not moved significantly, allow normal navigation
+      bubble.addEventListener('click', (ev)=>{
+        // Only prevent link navigation if user actually dragged the bubble
+        if(moved){
+          ev.preventDefault();
+          ev.stopPropagation();
+        }
+        // Otherwise let the link work naturally
+      }, false);
+      
+      // Additional: on touchend, allow link click if not dragged
+      bubble.addEventListener('touchend', (ev)=>{
+        if(!moved){
+          // Let the click event fire naturally to open the link
+          const clickEvent = new MouseEvent('click', {bubbles: true, cancelable: true});
+          bubble.dispatchEvent(clickEvent);
+        }
+      }, {passive:true});
+
+      // Handle scroll: restore position state to avoid jumping
+      let scrollTimeout;
+      window.addEventListener('scroll', ()=>{
+        if(!dragging){
+          clearTimeout(scrollTimeout);
+          scrollTimeout = setTimeout(()=>{
+            // Keep bubble at last snapped position
+            if(bubble.classList.contains('snapped-right')){
+              bubble.style.right = '24px';
+              bubble.style.left = 'auto';
+            }
+          }, 150);
+        }
+      }, {passive:true});
+
+      // On resize, restore position
+      window.addEventListener('resize', ()=>{
+        size = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--bubble-size')) || size;
+      }, {passive:true});
+
+      const observer = new MutationObserver(()=> bubble.style.zIndex = 120);
+      observer.observe(document.body, {attributes:true, childList:true, subtree:true});
+    })();
+  </script>
+</body>
+</html>
