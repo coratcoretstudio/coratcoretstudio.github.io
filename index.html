@@ -85,7 +85,11 @@
     @media (max-width:900px){
       aside.sidebar{position:fixed; left:0; top:var(--header-h); bottom:0; transform:translateX(-110%); transition: transform var(--transition); z-index:60; width:300px; background:linear-gradient(180deg, var(--panel), rgba(26,26,46,0.95));}
       body.sidebar-open aside.sidebar{transform:translateX(0)}
-      .container{padding:0 16px;}
+      .container{
+  padding-top: var(--header-h);
+  padding-left: 16px;
+  padding-right: 16px;
+}
       .hero .text{max-width:100%; padding:0 8px}
       .hero h1{font-size:42px}
       .hero p.lead{font-size:16px}
@@ -333,7 +337,7 @@
            <li><a href="#about">About Us</a></li>
           <li><a href="#services">Services</a></li>
           <li><a href="#portfolio">Portfolio</a></li>
-           <li><a href="#our team">our team</a></li>
+           <li><a href="#our-team">our team</a></li>
           <li><a href="#contact">Contact</a></li>
           <!-- long menu demonstration (keeps sidebar scrollbar visible) -->
         </ul>
@@ -400,7 +404,7 @@
         </div>
       </section>
 
-      <section id="our team" class="reveal" style="margin-top:18px">
+      <section id="our-team" class="reveal" style="margin-top:18px">
         <div class="kicker">Our Team</div> 
         <h2 style="margin:12px 0 0; font-size:24px; letter-spacing:1px">Meet The Crew</h2>
         <div class="team-grid">
@@ -527,11 +531,11 @@
     const yearEl = document.getElementById('year');
     yearEl.textContent = new Date().getFullYear();
 
-      const open = body.classList.toggle ('sidebar-open');
     // Hamburger / sidebar toggle
-    btnHamburger.addEventListener('click', ()=>{gle('sidebar-open');
-      btnHamburger.setAttribute('aria-expanded', open);
-    });
+   btnHamburger.addEventListener('click', ()=>{
+  const open = body.classList.toggle('sidebar-open');
+  btnHamburger.setAttribute('aria-expanded', open);
+});
 
     // Close sidebar when nav link clicked (mobile)
     document.getElementById('nav-menu').addEventListener('click', (e)=>{
